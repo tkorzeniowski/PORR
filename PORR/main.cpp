@@ -1,14 +1,6 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-/*
-#include <stdio.h>
-#include <stdlib.h>
-#include <cmath>
-#include <time.h>
-#include <memory.h>
-#include <algorithm>
-*/
 #include "Firefly.h"
 #include "GSO.h"
 

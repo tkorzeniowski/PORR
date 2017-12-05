@@ -26,7 +26,7 @@ gama - Luciferin enhancement constant
 beta - neighborhood ehancement constant
 s - step size (agent speed)
 nd - Desired number of neighbors
-d - dimension of the search space
+D - dimension of the search space
 Variables
 ----------
 Lc - Luciferin value
