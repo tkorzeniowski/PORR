@@ -1,5 +1,8 @@
 # PORR
 
+Struktura pliku z danymi
+
+
 6         // liczba przedmiotów - D
 
 20        // liczba świetlików - N / n
