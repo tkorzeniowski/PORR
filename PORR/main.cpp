@@ -41,7 +41,7 @@ void readCostM(string fileName)
 
 
 int main(){
-	readCostM("plik.txt");
+	readCostM("plik2.txt");
 	cout<<"Algorytm FA"<<endl;
 	FA();
 	cout<<"Algorytm GSO"<<endl;

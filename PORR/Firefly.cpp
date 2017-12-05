@@ -186,7 +186,7 @@ void move_ffa()
 				{
 					r = (   (double)rand() / ((double)(RAND_MAX)+(double)(1)) );
 					double tmpf = alpha*(r-0.5)*scale;
-					ffa[i][k] = ffa[i][k]*(1.0-beta)+ffa_tmp[j][k]*beta+tmpf; // docelowo zamiast ulamka wartosc calkowita
+					ffa[i][k] = round(ffa[i][k]*(1.0-beta)+ffa_tmp[j][k]*beta+tmpf); // docelowo zamiast ulamka wartosc calkowita
 				}
 			}
 		}
