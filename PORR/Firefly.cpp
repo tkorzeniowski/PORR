@@ -24,6 +24,8 @@ Iztok Fister (iztok.fister@uni-mb.si)
 #include <time.h>
 #include <string.h>
 #include <memory.h>
+#include <random>
+#include<omp.h>
 
 #include "Firefly.h"
 
@@ -60,6 +62,52 @@ double cost(double sol[MAX_D]);
 //Write your own objective function
 FunctionCallback function = &cost;
 
+
+class RNG
+{
+public:
+    typedef std::mt19937 Engine;
+    typedef std::uniform_real_distribution<double> Distribution;
+
+    RNG() : engines(), distribution(0.0, 1.0)
+    {
+        int threads = std::max(1, omp_get_max_threads());
+        for(int seed = 0; seed < threads; ++seed)
+        {
+            engines.push_back(Engine(seed));
+        }
+    }
+
+    double operator()()
+    {
+        int id = omp_get_thread_num();
+        return distribution(engines[id]);
+    }
+
+    std::vector<Engine> engines;
+    Distribution distribution;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // optionally recalculate the new alpha value
 double alpha_new(double alpha, int NGen)
 {
@@ -80,18 +128,27 @@ void init_ffa()
 		ub[i] = 1.0; // wektory binarne - zaokraglenie do najblizszego int-a
 	}
 
-	for (i=0;i<N;i++)
-	{
-		for (j=0;j<D;j++)
-		{
-			r = (   (double)rand() / ((double)(RAND_MAX)+(double)(1)) );
-			ffa[i][j]=round(r*(ub[j]-lb[j])+lb[j]); // zmiana na wektory binarne - pozycja odpowiada przedmiotowi, ktory wlozymy do plecaka
-			cout<<ffa[i][j]<<" ";
-		}
-		cout<<endl;
-		f[i] = 1.0;			// initialize attractiveness
-		I[i] = f[i];
-	}
+    RNG rand231;
+    omp_set_nested(1);
+    #pragma omp parallel num_threads(4) private(r)
+    {
+
+
+        #pragma omp for
+        for (i=0;i<N;i++)
+        {
+
+            for (j=0;j<D;j++)
+            {
+                r = rand231();
+                ffa[i][j]=round(r*(ub[j]-lb[j])+lb[j]); // zmiana na wektory binarne - pozycja odpowiada przedmiotowi, ktory wlozymy do plecaka
+
+            }
+            cout<<endl;
+            f[i] = 1.0;			// initialize attractiveness
+            I[i] = f[i];
+        }
+    }
 }
 
 // implementation of bubble sort
@@ -129,35 +186,47 @@ void replace_ffa()
 {
 	int i, j;
 
-	// copy original population to temporary area
-	for(i=0;i<N;i++)
-	{
-		for(j=0;j<D;j++)
-		{
-			ffa_tmp[i][j] = ffa[i][j];
-		}
-	}
+    omp_set_nested(1);
+    #pragma omp parallel num_threads(4)
+    {
 
-	// generational selection in sense of EA
-	for(i=0;i<N;i++)
-	{
-		for(j=0;j<D;j++)
-		{
-			ffa[i][j] = ffa_tmp[Index[i]][j];
-		}
-	}
+
+        // copy original population to temporary area
+        #pragma omp for
+        for(i=0;i<N;i++)
+        {
+            for(j=0;j<D;j++)
+            {
+                ffa_tmp[i][j] = ffa[i][j];
+            }
+        }
+
+        // generational selection in sense of EA
+        #pragma omp for
+        for(i=0;i<N;i++)
+        {
+            for(j=0;j<D;j++)
+            {
+                ffa[i][j] = ffa_tmp[Index[i]][j];
+            }
+        }
+    }
 }
 
 void findlimits(int k)
 {
 	int i;
 
-	for(i=0;i<D;i++)
+	#pragma omp parallel num_threads(4)
 	{
-		if(ffa[k][i] < lb[i])
-			ffa[k][i] = lb[i];
-		if(ffa[k][i] > ub[i])
-			ffa[k][i] = ub[i];
+        #pragma omp for
+        for(i=0;i<D;i++)
+        {
+            if(ffa[k][i] < lb[i])
+                ffa[k][i] = lb[i];
+            if(ffa[k][i] > ub[i])
+                ffa[k][i] = ub[i];
+        }
 	}
 }
 
@@ -166,6 +235,7 @@ void move_ffa()
 	int i, j, k;
 	double scale;
 	double r, beta;
+
 
 	for(i=0;i<N;i++)
 	{
@@ -186,7 +256,7 @@ void move_ffa()
 				{
 					r = (   (double)rand() / ((double)(RAND_MAX)+(double)(1)) );
 					double tmpf = alpha*(r-0.5)*scale;
-					ffa[i][k] = round(ffa[i][k]*(1.0-beta)+ffa_tmp[j][k]*beta+tmpf); // docelowo zamiast ulamka wartosc calkowita
+					ffa[i][k] = ffa[i][k]*(1.0-beta)+ffa_tmp[j][k]*beta+tmpf; // docelowo zamiast ulamka wartosc calkowita
 				}
 			}
 		}
@@ -257,3 +327,6 @@ double cost(double* sol) // obliczanie funkcji celu
 	}
 	return sum;
 }
+
+
+

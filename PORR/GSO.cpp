@@ -10,7 +10,8 @@
 #include <math.h>
 #include <string.h>
 #include <time.h>
-
+#include <random>
+#include<omp.h>
 #include "GSO.h"
 using namespace std;
 
@@ -26,7 +27,7 @@ gama - Luciferin enhancement constant
 beta - neighborhood ehancement constant
 s - step size (agent speed)
 nd - Desired number of neighbors
-D - dimension of the search space
+d - dimension of the search space
 Variables
 ----------
 Lc - Luciferin value
@@ -56,6 +57,34 @@ W - Workspace size
 #define MAX_N	1000
 #define MAX_D	1000
 
+
+
+
+class RNG
+{
+public:
+    typedef std::mt19937 Engine;
+    typedef std::uniform_real_distribution<double> Distribution;
+
+    RNG() : engines(), distribution(0.0, 1.0)
+    {
+        int threads = std::max(1, omp_get_max_threads());
+        for(int seed = 0; seed < threads; ++seed)
+        {
+            engines.push_back(Engine(seed));
+        }
+    }
+
+    double operator()()
+    {
+        int id = omp_get_thread_num();
+        return distribution(engines[id]);
+    }
+
+    std::vector<Engine> engines;
+    Distribution distribution;
+};
+
 extern int D, n, MaxGeneration;
 extern double *masa, *zysk, maxMasaPlecaka;
 
@@ -65,22 +94,29 @@ static double X[MAX_N][MAX_D], Lc[MAX_N], Rd[MAX_N], P[MAX_N][MAX_N];//, Sol[] =
 
 double Distance(int i, int j) {
 	double dis = 0;
-	for(int k = 0; k < D; ++k)
-			dis = dis + pow((X[i][k]-X[j][k]),2);
+    for(int k = 0; k < D; ++k)
+        dis = dis + pow((X[i][k]-X[j][k]),2);
 	return sqrt(dis);
 }
 void DeployGlowworms(float lim) {
 	int lb = 0, ub = 1;
 	double rr;
-
-	for(int i = 0; i < n; i++) {
-			for(int j = 0; j < D; ++j) {
-				rr = (   (double)rand() / ((double)(RAND_MAX)+(double)(1)) );
-				X[i][j]=round(rr*(ub-lb)+lb); // zmiana na wektory binarne - pozycja odpowiada przedmiotowi, ktory wlozymy do plecaka
-				std::cout << X[i][j] << " " ;
-			}
-		cout<<endl;
-	}
+    RNG rand232;
+    omp_set_nested(1);
+    #pragma omp parallel num_threads(4) private(rr)
+    {
+        #pragma omp for
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < D; ++j)
+            {
+                rr = rand232();
+                X[i][j]=round(rr*(ub-lb)+lb); // zmiana na wektory binarne - pozycja odpowiada przedmiotowi, ktory wlozymy do plecaka
+                std::cout << X[i][j] << " " ;
+            }
+            cout<<endl;
+        }
+    }
 }
 
 void UpdateLuciferin() {
@@ -106,33 +142,47 @@ void UpdateLuciferin() {
 	}
 }
 void FindNeighbors() {
-	for(int i = 0; i < n; ++i) {
-		N[i][i] = 0; Na[i] = 0;
-		for(int j = 0; j < n; ++j){
-			if (j!=i){
-				if ((Lc[i] < Lc[j]) && (Distance(i,j) < Rd[i])) N[i][j] = 1;
-				else N[i][j] = 0;
 
-				Na[i] = Na[i] + N[i][j];
-			}
-		}
-	}
+    omp_set_nested(0);
+    #pragma omp parallel num_threads(4)
+    {
+        #pragma omp for
+        for(int i = 0; i < n; ++i) {
+            N[i][i] = 0; Na[i] = 0;
+            for(int j = 0; j < n; ++j){
+                if (j!=i){
+                    if ((Lc[i] < Lc[j]) && (Distance(i,j) < Rd[i])) N[i][j] = 1;
+                    else N[i][j] = 0;
+
+                    Na[i] = Na[i] + N[i][j];
+                }
+            }
+        }
+    }
 }
 
 void FindProbabilities() {
-	for(int i = 0; i < n; ++i) {
-		double sum = 0;
-		for (int j = 0; j < n; ++j) sum = sum + N[i][j]*(Lc[j] - Lc[i]);
+    omp_set_nested(0);
+    #pragma omp parallel num_threads(4)
+    {
+        #pragma omp for
+        for(int i = 0; i < n; ++i) {
+            double sum = 0;
+            for (int j = 0; j < n; ++j) sum = sum + N[i][j]*(Lc[j] - Lc[i]);
 
-		for(int j = 0; j < n; ++j) {
-			if (sum != 0) P[i][j] = N[i][j]*(Lc[j] - Lc[i])/sum;
-			else P[i][j] = 0;
-		}
-	}
+            for(int j = 0; j < n; ++j) {
+                if (sum != 0) P[i][j] = N[i][j]*(Lc[j] - Lc[i])/sum;
+                else P[i][j] = 0;
+            }
+        }
+    }
+
 }
 
 
 void SelectLeader() {
+
+
 	for (int i = 0; i < n; ++i) {
 		double b_lower = 0;
 		Ld[i] = i;
@@ -147,6 +197,7 @@ void SelectLeader() {
 			}
 		}
 	}
+
 }
 
 
@@ -170,8 +221,12 @@ void Move() {
 
 }
 void UpdateNeighborhood() {
-	for (int i = 0; i < n; ++i)
-		Rd[i] = max(0.0, min(r, Rd[i] + beta*(nd - Na[i])));
+	#pragma omp parallel num_threads(4)
+	{
+	    #pragma omp for
+        for (int i = 0; i < n; ++i)
+            Rd[i] = max(0.0, min(r, Rd[i] + beta*(nd - Na[i])));
+	}
 }
 
 
