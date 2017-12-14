@@ -56,7 +56,7 @@ W - Workspace size
 
 #define MAX_N	1000
 #define MAX_D	1000
-
+double epsilon1 = 100.0;
 
 
 
@@ -98,51 +98,117 @@ double Distance(int i, int j) {
         dis = dis + pow((X[i][k]-X[j][k]),2);
 	return sqrt(dis);
 }
-void DeployGlowworms(float lim) {
+// void DeployGlowworms(float lim) {
+void DeployGlowworms(int liczbaWatkow) {
 	int lb = 0, ub = 1;
 	double rr;
+
+//	for(int i = 0; i < n; i++) {
+//			for(int j = 0; j < D; ++j) {
+//				rr = (   (double)rand() / ((double)(RAND_MAX)+(double)(1)) );
+//				X[i][j]=round(rr*(ub-lb)+lb); // zmiana na wektory binarne - pozycja odpowiada przedmiotowi, ktory wlozymy do plecaka
+//				std::cout << X[i][j] << " " ;
+//			}
+//		cout<<endl;
+//	}
+
     RNG rand232;
     omp_set_nested(1);
-    #pragma omp parallel num_threads(4) private(rr)
+    #pragma omp parallel num_threads(liczbaWatkow) private(rr)
     {
         #pragma omp for
         for(int i = 0; i < n; i++)
         {
             for(int j = 0; j < D; ++j)
             {
+                // rr = (   (double)rand() / ((double)(RAND_MAX)+(double)(1)) );
                 rr = rand232();
                 X[i][j]=round(rr*(ub-lb)+lb); // zmiana na wektory binarne - pozycja odpowiada przedmiotowi, ktory wlozymy do plecaka
-                std::cout << X[i][j] << " " ;
+                // std::cout << X[i][j] << " " ;
             }
-            cout<<endl;
+            // cout<<endl;
         }
     }
 }
 
-void UpdateLuciferin() {
+void UpdateLuciferin(int liczbaWatkow) {
 	double sum = 0.0, masaPlecaka = 0.0;
 
-	for (int i = 0; i < n; ++i) {
-		sum = 0.0; // wartosc funkcji celu
-		masaPlecaka = 0.0; 	// sumaryczna masa plecaka dla swietlika (rozwiazania)
+    omp_set_nested(0);
+    #pragma omp parallel num_threads(liczbaWatkow)
+    {
+        #pragma omp for
+        for (int i = 0; i < n; ++i) {
+            sum = 0.0; // wartosc funkcji celu
+            masaPlecaka = 0.0; 	// sumaryczna masa plecaka dla swietlika (rozwiazania)
 
-		for(int j = 0; j<D; ++j){
+            for(int j = 0; j<D; ++j){
 
-			if(masa[j]*X[i][j] + masaPlecaka <= maxMasaPlecaka){ // plecak po dodaniu przedmiotu bedzie co najwyzej pelny
-				sum += X[i][j]*zysk[j];
-				masaPlecaka += X[i][j]*masa[j]; // dodawaj je do plecaka
-			}else{ // chcemy dodac za duzo
-				sum= -1.0; // niedopuszczalne rozwiazanie
-				break;
-			}
-		}
+                if(masa[j]*X[i][j] + masaPlecaka <= maxMasaPlecaka){ // plecak po dodaniu przedmiotu bedzie co najwyzej pelny
+                    sum += X[i][j]*zysk[j];
+                    masaPlecaka += X[i][j]*masa[j]; // dodawaj je do plecaka
+                }else{ // chcemy dodac za duzo
+                    sum= -1.0; // niedopuszczalne rozwiazanie
+                    break;
+                }
+            }
 
-		//Lc[i] = (1-rho)*Lc[i] + gama*sum;//J;
-		Lc[i] = sum;
-	}
+            //Lc[i] = (1-rho)*Lc[i] + gama*sum;//J;
+            Lc[i] = sum;
+        }
+    }
+
+
+//    	for (int i = 0; i < n; ++i) {
+//		sum = 0.0; // wartosc funkcji celu
+//		masaPlecaka = 0.0; 	// sumaryczna masa plecaka dla swietlika (rozwiazania)
+//
+//		for(int j = 0; j<D; ++j){
+//
+//			if(masa[j]*X[i][j] + masaPlecaka <= maxMasaPlecaka){ // plecak po dodaniu przedmiotu bedzie co najwyzej pelny
+//				sum += X[i][j]*zysk[j];
+//				masaPlecaka += X[i][j]*masa[j]; // dodawaj je do plecaka
+//			}else{ // chcemy dodac za duzo
+//				sum= -1.0; // niedopuszczalne rozwiazanie
+//				break;
+//			}
+//		}
+//
+//		//Lc[i] = (1-rho)*Lc[i] + gama*sum;//J;
+//		Lc[i] = sum;
+//	}
+
+
 }
-void FindNeighbors() {
-
+void FindNeighbors(int liczbaWatkow) {
+//	for(int i = 0; i < n; ++i) {
+//		N[i][i] = 0; Na[i] = 0;
+//		for(int j = 0; j < n; ++j){
+//			if (j!=i){
+//				if ((Lc[i] < Lc[j]) && (Distance(i,j) < Rd[i])) N[i][j] = 1;
+//				else N[i][j] = 0;
+//
+//				Na[i] = Na[i] + N[i][j];
+//			}
+//		}
+//	}
+//		for(int i = 0; i < n; ++i) {
+//            N[i][i] = 0; Na[i] = 0;
+//
+//            #pragma omp parallel num_threads(4) shared(Na)
+//            {
+//
+//                #pragma omp for
+//                for(int j = 0; j < n; ++j){
+//                    if (j!=i){
+//                        if ((Lc[i] < Lc[j]) && (Distance(i,j) < Rd[i])) N[i][j] = 1;
+//                        else N[i][j] = 0;
+//
+//                        Na[i] = Na[i] + N[i][j];
+//                    }
+//                }
+//            }
+//		}
     omp_set_nested(0);
     #pragma omp parallel num_threads(4)
     {
@@ -161,9 +227,9 @@ void FindNeighbors() {
     }
 }
 
-void FindProbabilities() {
+void FindProbabilities(int liczbaWatkow) {
     omp_set_nested(0);
-    #pragma omp parallel num_threads(4)
+    #pragma omp parallel num_threads(liczbaWatkow)
     {
         #pragma omp for
         for(int i = 0; i < n; ++i) {
@@ -177,6 +243,17 @@ void FindProbabilities() {
         }
     }
 
+
+
+//    	for(int i = 0; i < n; ++i) {
+//		double sum = 0;
+//		for (int j = 0; j < n; ++j) sum = sum + N[i][j]*(Lc[j] - Lc[i]);
+//
+//		for(int j = 0; j < n; ++j) {
+//			if (sum != 0) P[i][j] = N[i][j]*(Lc[j] - Lc[i])/sum;
+//			else P[i][j] = 0;
+//		}
+//	}
 }
 
 
@@ -197,6 +274,28 @@ void SelectLeader() {
 			}
 		}
 	}
+
+//    RNG rand233;
+//    omp_set_nested(0);
+//    #pragma omp parallel num_threads(4)
+//    {
+//
+//        #pragma omp for
+//        for (int i = 0; i < n; ++i) {
+//            double b_lower = 0;
+//            Ld[i] = i;
+//            double toss = rand233();
+//            for (int j = 0; j < n; ++j) {
+//                if (N[i][j] == 1) {
+//                    double b_upper = b_lower + P[i][j];
+//                    if ((toss >= b_lower) && (toss < b_upper)) {
+//                        Ld[i] = j;
+//                        break;
+//                    } else b_lower = b_upper;
+//                }
+//            }
+//        }
+//    }
 
 }
 
@@ -220,8 +319,8 @@ void Move() {
 	}
 
 }
-void UpdateNeighborhood() {
-	#pragma omp parallel num_threads(4)
+void UpdateNeighborhood(int liczbaWatkow) {
+	#pragma omp parallel num_threads(liczbaWatkow)
 	{
 	    #pragma omp for
         for (int i = 0; i < n; ++i)
@@ -233,74 +332,92 @@ void UpdateNeighborhood() {
 
 
 //int main (int argc, char * const argv[]) {
-void GSO(){
+void GSO(int liczbaWatkow){
 
 	srand(time(0));
-	DeployGlowworms(W);
+	double foBest = 0;
+	DeployGlowworms(liczbaWatkow);
+
 
 	for (int i = 0; i < n; ++i) {
 		Lc[i] = 0;//5;
 		Rd[i] = r;
 	}
-
+    int minNa = abs(Na[0]), indexNa = 0;
 	for (int t = 0; t < MaxGeneration; ++t) {
-		UpdateLuciferin();
 
-		FindNeighbors();
 
-		FindProbabilities();
+		UpdateLuciferin(liczbaWatkow);
+
+		FindNeighbors(liczbaWatkow);
+
+		FindProbabilities(liczbaWatkow);
 
 		SelectLeader();
 
 		Move();
 
-		UpdateNeighborhood();
+		UpdateNeighborhood(liczbaWatkow);
+
+        for (int i=0; i<n; ++i){
+            if(abs(Na[i])<=minNa && Lc[i]>Lc[indexNa]){
+                minNa = Na[i];
+                indexNa = i;
+            }
+	    }
+
+        if (t != 0 && abs(Lc[indexNa] - foBest) <= epsilon1)
+        {
+            break;
+        }
+	    foBest = Lc[indexNa];
 	}
 
-	cout<<endl<<"Macierz N"<<endl;
-	for (int i=0; i<n; ++i){
-		for (int j=0; j<n; ++j){
-			cout<<N[i][j]<<" ";
-		}
-		cout<<endl;
-	}
+//	cout<<endl<<"Macierz N"<<endl;
+//	for (int i=0; i<n; ++i){
+//		for (int j=0; j<n; ++j){
+//			cout<<N[i][j]<<" ";
+//		}
+//		cout<<endl;
+//	}
+//
+//	cout<<endl<<"Macierz Ld"<<endl;
+//	for (int i=0; i<n; ++i){
+//		cout<<Ld[i]<<" ";
+//	}
+//
+//	cout<<endl<<"Macierz Na"<<endl;
+	// int minNa = abs(Na[0]), indexNa = 0;
+//	for (int i=0; i<n; ++i){
+//		if(abs(Na[i])<=minNa && Lc[i]>Lc[indexNa]){
+//			minNa = Na[i];
+//			indexNa = i;
+//		}
+//		cout<<Na[i]<<" ";
+//	}
 
-	cout<<endl<<"Macierz Ld"<<endl;
-	for (int i=0; i<n; ++i){
-		cout<<Ld[i]<<" ";
-	}
-
-	cout<<endl<<"Macierz Na"<<endl;
-	int minNa = abs(Na[0]), indexNa = 0;
-	for (int i=0; i<n; ++i){
-		if(abs(Na[i])<=minNa && Lc[i]>Lc[indexNa]){
-			minNa = Na[i];
-			indexNa = i;
-		}
-		cout<<Na[i]<<" ";
-	}
-
-	cout<<endl<<"Macierz x"<<endl;
-	for (int i=0; i<n; ++i){
-		for (int j=0; j<D; ++j){
-			cout<<X[i][j]<<" ";
-		}
-		cout<<endl;
-	}
-
-	cout<<endl<<"Macierz Lc"<<endl;
-	for (int i=0; i<n; ++i){
-		cout<<Lc[i]<<" ";
-	}
-
-
-	// znalezione rozwiazanie
-	cout<<endl<<"Najlepszy swietlik"<<endl;
-	for (int j=0; j<D; ++j){
-		cout<<X[indexNa][j]<<" ";
-	}
-	cout<<endl<<"Wartosc f_celu: "<<Lc[indexNa]<<" uzyskal swietlik "<<indexNa+1<<endl;
+//	cout<<endl<<"Macierz x"<<endl;
+//	for (int i=0; i<n; ++i){
+//		for (int j=0; j<D; ++j){
+//			cout<<X[i][j]<<" ";
+//		}
+//		cout<<endl;
+//	}
+//
+//	cout<<endl<<"Macierz Lc"<<endl;
+//	for (int i=0; i<n; ++i){
+//		cout<<Lc[i]<<" ";
+//	}
+//
+//
+//	// znalezione rozwiazanie
+//	cout<<endl<<"Najlepszy swietlik"<<endl;
+//	for (int j=0; j<D; ++j){
+//		cout<<X[indexNa][j]<<" ";
+//	}
+// 	cout<<endl<<"Wartosc f_celu: "<<Lc[indexNa]<<" uzyskal swietlik "<<indexNa+1<<endl;
 
 	cout<<endl<<"koniec GSO"<<endl;
+	cout << "Wartosc f_celu: " << foBest;
 }
 

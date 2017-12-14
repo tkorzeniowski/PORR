@@ -53,6 +53,7 @@ double betamin = 0.2;		    // beta parameter
 double gama = 1.0;				// gamma parameter
 
 double fbest;					// the best objective function
+double epsilon = 10.0;
 
 typedef double (*FunctionCallback)(double sol[MAX_D]);
 
@@ -117,7 +118,7 @@ double alpha_new(double alpha, int NGen)
 }
 
 // initialize the firefly population
-void init_ffa()
+void init_ffa(int liczbaWatkow)
 {
 	int i, j;
 	double r;
@@ -128,9 +129,22 @@ void init_ffa()
 		ub[i] = 1.0; // wektory binarne - zaokraglenie do najblizszego int-a
 	}
 
+//	for (i=0;i<N;i++)
+//	{
+//		for (j=0;j<D;j++)
+//		{
+//			r = (   (double)rand() / ((double)(RAND_MAX)+(double)(1)) );
+//			// cout << "Tak sobie losuje dla Was: " << r << endl;
+//			ffa[i][j]=round(r*(ub[j]-lb[j])+lb[j]); // zmiana na wektory binarne - pozycja odpowiada przedmiotowi, ktory wlozymy do plecaka
+//			cout<<ffa[i][j]<<" ";
+//		}
+//		cout<<endl;
+//		f[i] = 1.0;			// initialize attractiveness
+//		I[i] = f[i];
+//	}
     RNG rand231;
     omp_set_nested(1);
-    #pragma omp parallel num_threads(4) private(r)
+    #pragma omp parallel num_threads(liczbaWatkow) private(r)
     {
 
 
@@ -140,9 +154,18 @@ void init_ffa()
 
             for (j=0;j<D;j++)
             {
-                r = rand231();
-                ffa[i][j]=round(r*(ub[j]-lb[j])+lb[j]); // zmiana na wektory binarne - pozycja odpowiada przedmiotowi, ktory wlozymy do plecaka
+                // cout << "Liczba watkow: " << omp_get_num_threads();
 
+
+
+                // r = (   (double)rand() / ((double)(RAND_MAX)+(double)(1)) );
+                r = rand231();
+
+
+
+                // cout << "Tak sobie losuje dla Was: " << r << endl;
+                ffa[i][j]=round(r*(ub[j]-lb[j])+lb[j]); // zmiana na wektory binarne - pozycja odpowiada przedmiotowi, ktory wlozymy do plecaka
+                // cout<< ffa[i][j]<<" ";
             }
             cout<<endl;
             f[i] = 1.0;			// initialize attractiveness
@@ -165,7 +188,7 @@ void sort_ffa()
 	{
 		for(j=i+1;j<N;j++)
 		{
-			if(I[i] < I[j]) // zmiana znaku nierównoœci na zgodnosc z artykulem
+			if(I[i] < I[j]) // zmiana znaku nierÃ³wnoÅ“ci na zgodnosc z artykulem
 			{
 				double z = I[i];	// exchange attractiveness
 				I[i] = I[j];
@@ -182,12 +205,29 @@ void sort_ffa()
 }
 
 // replace the old population according the new Index values
-void replace_ffa()
+void replace_ffa(int liczbaWatkow)
 {
 	int i, j;
 
+//	// copy original population to temporary area
+//	for(i=0;i<N;i++)
+//	{
+//		for(j=0;j<D;j++)
+//		{
+//			ffa_tmp[i][j] = ffa[i][j];
+//		}
+//	}
+//
+//	// generational selection in sense of EA
+//	for(i=0;i<N;i++)
+//	{
+//		for(j=0;j<D;j++)
+//		{
+//			ffa[i][j] = ffa_tmp[Index[i]][j];
+//		}
+//	}
     omp_set_nested(1);
-    #pragma omp parallel num_threads(4)
+    #pragma omp parallel num_threads(liczbaWatkow)
     {
 
 
@@ -213,11 +253,19 @@ void replace_ffa()
     }
 }
 
-void findlimits(int k)
+void findlimits(int k, int liczbaWatkow)
 {
 	int i;
 
-	#pragma omp parallel num_threads(4)
+//	for(i=0;i<D;i++)
+//	{
+//		if(ffa[k][i] < lb[i])
+//			ffa[k][i] = lb[i];
+//		if(ffa[k][i] > ub[i])
+//			ffa[k][i] = ub[i];
+//	}
+
+	#pragma omp parallel num_threads(liczbaWatkow)
 	{
         #pragma omp for
         for(i=0;i<D;i++)
@@ -230,7 +278,7 @@ void findlimits(int k)
 	}
 }
 
-void move_ffa()
+void move_ffa(int liczbaWatkow)
 {
 	int i, j, k;
 	double scale;
@@ -248,7 +296,7 @@ void move_ffa()
 				r += (ffa[i][k]-ffa[j][k])*(ffa[i][k]-ffa[j][k]);
 			}
 			r = sqrt(r);
-			if(I[i] < I[j])	// brighter and more attractive // zmiana znaku nierównoœci na zgodnosc z artykulem
+			if(I[i] < I[j])	// brighter and more attractive // zmiana znaku nierÃ³wnoÅ“ci na zgodnosc z artykulem
 			{
 				double beta0 = 1.0;
 				beta = (beta0-betamin)*exp(-gama*pow(r, 2.0))+betamin;
@@ -260,12 +308,12 @@ void move_ffa()
 				}
 			}
 		}
-		findlimits(i);
+		findlimits(i, liczbaWatkow);
 	}
 }
 
 //int main(int argc, char* argv[])
-void FA(){
+void FA(int liczbaWatkow){
 	int i;
     int t = 1;		// generation  counter
 
@@ -274,7 +322,7 @@ void FA(){
 	srand(time(0));
 
 	// generating the initial locations of n fireflies
-	init_ffa();
+	init_ffa(liczbaWatkow);
 
 	while(t <= MaxGeneration){
 
@@ -288,24 +336,27 @@ void FA(){
 
 		sort_ffa(); 	// ranking fireflies by their light intensity
 
-		replace_ffa();	// replace old population
+		replace_ffa(liczbaWatkow);	// replace old population
 
 		for(i=0;i<D;i++){	// find the current best
 			nbest[i] = ffa[0][i];
 			cout<<nbest[i]<<" ";
 		}
 		cout<<endl;
-
+        if (abs(I[0] - fbest) <= epsilon)
+        {
+            break;
+        }
 		fbest = I[0];
 
 		// move all fireflies to the better locations
-		move_ffa();
+		move_ffa(liczbaWatkow);
 
 		cout << "Generacja= " << t << ", f_celu= " << fbest << endl;
 		++t;
 	}
 
-	cout << "Koñcowa wartoœæ funkcji celu = " << fbest << endl;
+	cout << "KoÃ±cowa wartoÅ“Ã¦ funkcji celu = " << fbest << endl;
 }
 
 // FF test function
