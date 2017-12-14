@@ -1,11 +1,11 @@
 #include <iostream>
 
 double Distance(int i, int j);
-void DeployGlowworms(float lim);
-void UpdateLuciferin();
-void FindNeighbors();
-void FindProbabilities();
+void DeployGlowworms(int liczbaWatkow);
+void UpdateLuciferin(int liczbaWatkow);
+void FindNeighbors(int liczbaWatkow);
+void FindProbabilities(int liczbaWatkow);
 void SelectLeader();
 void Move();
-void UpdateNeighborhood();
-void GSO();
+void UpdateNeighborhood(int liczbaWatkow);
+void GSO(int liczbaWatkow);

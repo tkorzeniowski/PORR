@@ -1,10 +1,10 @@
 #include <iostream>
 
 double alpha_new(double alpha, int NGen);
-void init_ffa();
+void init_ffa(int liczbaWatkow);
 void sort_ffa();
-void replace_ffa();
-void findlimits(int k);
-void move_ffa();
-void FA();
+void replace_ffa(int liczbaWatkow);
+void findlimits(int k, int liczbaWatkow);
+void move_ffa(int liczbaWatkow);
+void FA(int liczbaWatkow);
 double cost(double* sol);
