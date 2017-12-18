@@ -86,6 +86,8 @@ morekeywords={}
 \usepackage{afterpage} % pusta strona
 \usepackage{tabularx}
 
+\usepackage{makecell}
+
 %\usepackage{setspace} % interlinia
 %\singlespacing 
 %\onehalfspacing
@@ -245,13 +247,68 @@ gdzie $\beta$ to pewna stała, a $n_{t}$ jest parametrem używanym do sterowania
 \end{algorithm}
 
 \section{Wybrane technologie}
-OpenMP
+Implementacja algorytmów została wykonana w języku C++ 11. Do implementacji i testów wykorzystano zintegrowane środowisko programistyczne Code Blocks .
+
+Do realizacji wersji równoległej algorytmów z pamięcią wspólną wykorzystano środowisko OpenMP.
+
 \subsection{Sprzęt}
-Procesor (+ liczba rdzeni), ram, system operacyjny
+\bgroup
+\def\arraystretch{1.3}
+\begin{tabular}{rl}
+\centering
+%\begin{tabularx}{\textwidth}{lX}
+%\hline
+ Procesor & Intel Core i7-4770K 3.5 GHz, 4 rdzenie, 8 wątków  \\
+ & (korzystanie z hiper-wątków)\\
+ Pamięć RAM &  16 GB\\
+ System operacyjny & Windows 7 \\ 
+
+\end{tabular}
+\egroup
 
 \section{Wyniki}
+Dla każdego z algorytmów wykonano 10 symulacji rozwiązania problemów o różnych złożonościach (liczbie możliwych elementów do spakowania). Symulacje te zostały wykonane w wersji sekwencyjnej oraz równoległej dla czterech i ośmiu wątków. Większej liczby wątków nie ma sensu rozważać, ponieważ używany sprzęt nie wystarczy do większego zrównoleglenia obliczeń.
 \subsection{FA}
+\bgroup
+\def\arraystretch{1.2}
+\begin{table}[ht]
+\caption{Czas i przyśpieszenie wykonania algorytmu świetlika (FA)}
+\label{wspólnaFA}
+\centering
+\begin{tabular}{|c||c||c|c||c|c|}
+\hline
+ \multirow{2}{*}{złożoność} & \multirow{2}{*}{sekwencyjnie} & \multicolumn{2}{c||}{4 wątki} & \multicolumn{2}{c|}{8 wątków} \\\cline{3-6}
+ & & czas & przyśpieszenie & czas & przyśpieszenie \\\hline
+ 24  & 0,0753906 & 0,17625 & 0,42775 &  0,0847009 & 0,89008\\\hline
+ 120  & 0,215828 & 0,46174 & 0,46742 & 0,302861 & 0,71263 \\\hline
+ 600  & 1,27815 & 1,23022 & 1,03896 & 0,747475 & 1,70996 \\\hline
+ 960  & 1,51908 & 1,1197 & 1,35668 & 0,698841 & 2,17371 \\\hline
+\end{tabular}
+\end{table}
+\egroup
+
+
+
+
 \subsection{GSO}
+\bgroup
+\def\arraystretch{1.2}
+\begin{table}[ht]
+\caption{Czas i przyśpieszenie wykonania algorytmu roju świetlików (GSO)}
+\label{wspólnaGSO}
+\centering
+\begin{tabular}{|c||c||c|c||c|c|}
+\hline
+ \multirow{2}{*}{złożoność} & \multirow{2}{*}{sekwencyjnie} & \multicolumn{2}{c||}{4 wątki} & \multicolumn{2}{c|}{8 wątków} \\\cline{3-6}
+ & & czas & przyśpieszenie & czas & przyśpieszenie \\\hline
+ 24  & 0,0963501 & 0,3246547 & 0,29678 &  0,3521662 & 0,27359\\\hline
+ 120  & 0,245403 & 0,237385 & 0,91779 & 0,214741 & 1,14279 \\\hline
+ 600  & 0,813467 & 0,612114 & 1,32895 & 0,661251 & 1,23019 \\\hline
+ 960  & 1,30946 & 0,892147 & 1,46776 & 0,711577 & 1,84022 \\\hline
+\end{tabular}
+\end{table}
+\egroup
+
 
 %\newpage
  
