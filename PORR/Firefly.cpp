@@ -316,7 +316,7 @@ void move_ffa(int liczbaWatkow)
 void FA(int liczbaWatkow){
 	int i;
     int t = 1;		// generation  counter
-
+    int licznik = 0;
     // firefly algorithm optimization loop
     // determine the starting point of random generator
 	srand(time(0));
@@ -343,10 +343,34 @@ void FA(int liczbaWatkow){
 			cout<<nbest[i]<<" ";
 		}
 		cout<<endl;
-        if (abs(I[0] - fbest) <= epsilon)
+		// TO POWINNO BYC ODKOMENTOWANE PODCZAS TESTU SZYBKOSCI
+		// DZIALANIA ALGORYTMU
+//        if (abs(I[0] - fbest) <= epsilon)
+//        {
+//            break;
+//        }
+
+
+
+
+
+        // TO POWINNO BYC ODKOMENTOWANE PODCZAS BADANIA ZBIEZNOSCI
+        if (t != 1 && abs(I[0] - fbest) <= epsilon)
         {
-            break;
+            cout << "\nWszedlem do ifa\n" << t << endl;
+            licznik++;
+            if (licznik == 10)
+            {
+                break;
+            }
+
         }
+        else
+        {
+            licznik = 0;
+        }
+
+
 		fbest = I[0];
 
 		// move all fireflies to the better locations

@@ -60,7 +60,7 @@ int main(){
     LARGE_INTEGER poczatek;
     LARGE_INTEGER koniec;
     double elapsedSeconds;
-    int liczbaWatkow = 4;
+    int liczbaWatkow = 8;
     double wynikKoncowy = 0;
     for (int i = 0; i < 1; i++)
     {
@@ -68,16 +68,16 @@ int main(){
         QueryPerformanceCounter(&poczatek);
         /* Do stuff */
         readCostM("plik.txt");
-        cout<<"Algorytm FA"<<endl;
+     //   cout<<"Algorytm FA"<<endl;
 
         FA(liczbaWatkow);
-        cout<<"Algorytm GSO"<<endl;
-        GSO(liczbaWatkow);
+     //   cout<<"Algorytm GSO"<<endl;
+        // GSO(liczbaWatkow);
 
-        QueryPerformanceCounter(&koniec);
-        elapsedSeconds = (koniec.QuadPart - poczatek.QuadPart) / (double)frequency.QuadPart;
-        cout << "\nWynik: " << elapsedSeconds << endl;
-        cout<<"KONIEC"<<endl;
+         QueryPerformanceCounter(&koniec);
+         elapsedSeconds = (koniec.QuadPart - poczatek.QuadPart) / (double)frequency.QuadPart;
+     //   cout << "\nWynik: " << elapsedSeconds << endl;
+      //  cout<<"KONIEC"<<endl;
         wynikKoncowy += elapsedSeconds;
     }
     cout << "\n" << wynikKoncowy;
