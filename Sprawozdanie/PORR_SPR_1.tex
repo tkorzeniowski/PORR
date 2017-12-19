@@ -115,7 +115,7 @@ Zdefiniować i rozwiązać dwa zadania o różnej złożoności. Zrealizować za
 \subsection{Problem plecakowy}
 Problem plecakowy polega na zapakowaniu maksymalnie cennego zbioru przedmiotów do plecaka, tak by nie przekroczyć jego ładowności. Można wyróżnić dwa podejścia do liczby pakowanych przedmiotów. W ogólnym podejściu zakładamy, że posiadamy wiele ($1, 2, \ldots$) egzemplarzy każdego z $N$ różnych przedmiotów. W bardziej rzeczywistych przypadkach posiadamy dokładnie jeden egzemplarz każdego z $N$ różnych przedmiotów. W tym projekcie zajmiemy się drugim podejściem.
 
-Zakładamy, że mamy do dyspozycji $n \in N$ przedmiotów. Każdy z tych przedmiotów jest warty $c$, a także posiada swoją wagę $m$. Naszym zadaniem jest zdecydowanie czy i które z przedmiotów załadujemy, tak by ich sumaryczna masa nie może przekroczyła ładowności plecaka $M_{max}$. Model matematyczny problemu plecakowego można przedstawić następująco
+Zakładamy, że mamy do dyspozycji $n \in N$ przedmiotów. Każdy z tych przedmiotów jest warty $c$, a także posiada swoją wagę $m$. Naszym zadaniem jest zdecydowanie czy i które z przedmiotów załadujemy, tak by ich sumaryczna masa nie przekroczyła ładowności plecaka $M_{max}$. Model matematyczny problemu plecakowego można przedstawić następująco
 \begin{equation}
 \max \sum_{i}^{N} c_{i} x_{i} 
 \label{f_celu}
@@ -130,8 +130,8 @@ x_{i} \in \{0,1\}
 Zatem poszukujemy rozwiązania w postaci binarnego wektora $x$ długości $N$:
 $$x_{i} = 
 	\begin{cases} 
-      1, & \text{gdy i-ty przedmiot zostanie zapakowany do placaka} \\
-      0, & \text{w przeciwnym przypaku}\\
+      1, & \text{gdy i-ty przedmiot zostanie zapakowany do plecaka} \\
+      0, & \text{w przeciwnym przypadku}\\
    \end{cases}
 $$
 
@@ -268,9 +268,11 @@ Do realizacji wersji równoległej algorytmów z pamięcią wspólną wykorzysta
 
 \section{Wyniki}
 Dla każdego z algorytmów wykonano 10 symulacji rozwiązania problemów o różnych złożonościach (liczbie możliwych elementów do spakowania). Symulacje te zostały wykonane w wersji sekwencyjnej oraz równoległej dla czterech i ośmiu wątków. Większej liczby wątków nie ma sensu rozważać, ponieważ używany sprzęt nie wystarczy do większego zrównoleglenia obliczeń.
-\subsection{FA}
+\subsection{Przyśpieszenie obliczeń}
+Obliczenia były prowadzone przy założeniach, że rozpatrujemy populację dwustu świetlików, a maksymalna liczba iteracji jaką może wykonać algorytm to tysiąc. Zestawienie czasów wykonania programu i osiągniętego przyśpieszenia w zależności od zrównoleglenia prezentują tabele \ref{wspólnaFA} i \ref{wspólnaGSO}.
+
 \bgroup
-\def\arraystretch{1.2}
+\def\arraystretch{1.1}
 \begin{table}[ht]
 \caption{Czas i przyśpieszenie wykonania algorytmu świetlika (FA)}
 \label{wspólnaFA}
@@ -287,12 +289,8 @@ Dla każdego z algorytmów wykonano 10 symulacji rozwiązania problemów o róż
 \end{table}
 \egroup
 
-
-
-
-\subsection{GSO}
 \bgroup
-\def\arraystretch{1.2}
+\def\arraystretch{1.1}
 \begin{table}[ht]
 \caption{Czas i przyśpieszenie wykonania algorytmu roju świetlików (GSO)}
 \label{wspólnaGSO}
@@ -308,10 +306,36 @@ Dla każdego z algorytmów wykonano 10 symulacji rozwiązania problemów o róż
 \end{tabular}
 \end{table}
 \egroup
+\vspace*{1\baselineskip}
+
+\subsection{Zbieżność algorytmów}
+\begin{figure}[ht]
+%\vspace{-20pt}
+\centering
+\includegraphics[height=8.4cm, width=15.7cm]{zbieznoscFA24}
+\caption{Zbieżność algorytmu świetlika (FA) dla 24 elementów.}
+\label{zbieznoscFA24}
+\end{figure}
+
+\begin{figure}[ht]
+%\vspace{-20pt}
+\centering
+\includegraphics[height=8.4cm, width=15.7cm]{zbieznoscFA600}
+\caption{Zbieżność algorytmu świetlika (FA) dla 600 elementów.}
+\label{zbieznoscFA600}
+\end{figure}
+%\clearpage
+
+W każdym z testów znane było najlepsze rozwiązanie  problemu plecakowego na podstawie którego wyznaczony był $\epsilon$. Jest to parametr wykorzystywany do wyznaczania zbieżności oznaczający procentową wartość o jaką może różnić się rozwiązanie znalezione przez algorytm w stosunku do rozwiązania optymalnego. Na potrzeby testów został on ustalony $\epsilon = 0.04$. Przez zbieżność algorytmu rozumiemy dostatecznie bliskie rozwiązanie w stosunku do rozwiązania optymalnego, które nie zmienia się przez określoną liczbę iteracji.
+
+Na podstawie wykresów \ref{zbieznoscFA24} i \ref{zbieznoscFA600} można zauważyć, że liczba iteracji potrzebnych do rozwiązania problemu na założonym poziomie dokładności rośnie wraz z rozmiarem problemu. Ponadto dla problemów o dużych rozmiarach (600 elementów) charakterystyczny jest większy początkowy wzrost wartości funkcji celu w stosunku do dalszych iteracji.
+
+Algorytm roju świetlików (GSO) nie nadaje się naszym zdaniem do problemów dyskretnych. Początkowo wylosowane najlepsze rozwiązanie pozostaje nim aż do końca działania algorytmu. Świetliki poruszają się wokół lokalnych maksimów, lecz liderzy (najlepsze lokalne rozwiązania) mają zbyt małe możliwości poruszania się.
 
 
 %\newpage
- 
+
+%\clearpage
 %\newpage
 \begin{thebibliography}{9}
 %\addcontentsline{toc}{section}{Literatura}
