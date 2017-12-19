@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.11.6)  19 DEC 2017 03:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.11.6)  19 DEC 2017 03:36
 entering extended mode
 **./PORR_SPR_1.tex
 (PORR_SPR_1.tex
@@ -1001,7 +1001,7 @@ l.252 D
        o realizacji wersji równoległej algorytmów z pamięcią wspólną ...
 [3
 
-] <zbieznoscFA24.png, id=85, 861.9703pt x 491.58656pt>
+] <zbieznoscFA24.png, id=86, 861.9703pt x 491.58656pt>
 File: zbieznoscFA24.png Graphic file (type png)
 
 <use zbieznoscFA24.png>
@@ -1012,7 +1012,7 @@ een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.318 \end{figure}
-                   [4] <zbieznoscFA600.png, id=91, 872.50969pt x 507.39563pt>
+                   [4] <zbieznoscFA600.png, id=92, 872.50969pt x 507.39563pt>
 File: zbieznoscFA600.png Graphic file (type png)
 
 <use zbieznoscFA600.png>
@@ -1046,30 +1046,32 @@ Package rerunfilecheck Info: File `PORR_SPR_1.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 356.
  ) 
 Here is how much of TeX's memory you used:
- 11473 strings out of 493323
- 166308 string characters out of 3140394
+ 11475 strings out of 493323
+ 166332 string characters out of 3140394
  285023 words of memory out of 3000000
- 14773 multiletter control sequences out of 15000+200000
- 12162 words of font info for 38 fonts, out of 3000000 for 9000
+ 14774 multiletter control sequences out of 15000+200000
+ 12698 words of font info for 39 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,12n,43p,986b,429s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,12n,43p,986b,427s stack positions out of 5000i,500n,10000p,200000b,50000s
 {D:/Programy/LaTeX/MiKTeX/fonts/enc/dvips/pl/pltt.enc}{D:/Programy/LaTeX/MiKT
 eX/fonts/enc/dvips/pl/plrm.enc}{D:/Programy/LaTeX/MiKTeX/fonts/enc/dvips/pl/plm
-i.enc}{D:/Programy/LaTeX/MiKTeX/fonts/enc/dvips/pl/plms.enc}{D:/Programy/LaTeX/
-MiKTeX/fonts/enc/dvips/pl/plme.enc}<D:/Programy/LaTeX/MiKTeX/fonts/type1/public
-/pl/plbx10.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/plbx12.pfb><D:/P
-rogramy/LaTeX/MiKTeX/fonts/type1/public/pl/plex10.pfb><D:/Programy/LaTeX/MiKTeX
-/fonts/type1/public/pl/plmi10.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/public/
-pl/plmi6.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/plmi8.pfb><D:/Prog
-ramy/LaTeX/MiKTeX/fonts/type1/public/pl/plr10.pfb><D:/Programy/LaTeX/MiKTeX/fon
-ts/type1/public/pl/plr12.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/pl
-r17.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/plr6.pfb><D:/Programy/L
-aTeX/MiKTeX/fonts/type1/public/pl/plr8.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type
-1/public/pl/plsy10.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/plsy8.pf
-b><D:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/pltt10.pfb>
-Output written on PORR_SPR_1.pdf (6 pages, 170438 bytes).
+i.enc}{D:/Programy/LaTeX/MiKTeX/fonts/enc/dvips/pl/plit.enc}{D:/Programy/LaTeX/
+MiKTeX/fonts/enc/dvips/pl/plms.enc}{D:/Programy/LaTeX/MiKTeX/fonts/enc/dvips/pl
+/plme.enc}<D:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/plbx10.pfb><D:/Progra
+my/LaTeX/MiKTeX/fonts/type1/public/pl/plbx12.pfb><D:/Programy/LaTeX/MiKTeX/font
+s/type1/public/pl/plex10.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/pl
+mi10.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/plmi6.pfb><D:/Programy
+/LaTeX/MiKTeX/fonts/type1/public/pl/plmi8.pfb><D:/Programy/LaTeX/MiKTeX/fonts/t
+ype1/public/pl/plr10.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/plr12.
+pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/plr17.pfb><D:/Programy/LaTe
+X/MiKTeX/fonts/type1/public/pl/plr6.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/p
+ublic/pl/plr8.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/plsy10.pfb><D
+:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/plsy8.pfb><D:/Programy/LaTeX/MiKT
+eX/fonts/type1/public/pl/plti10.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/publi
+c/pl/pltt10.pfb>
+Output written on PORR_SPR_1.pdf (6 pages, 177974 bytes).
 PDF statistics:
- 170 PDF objects out of 1000 (max. 8388607)
+ 175 PDF objects out of 1000 (max. 8388607)
  32 named destinations out of 1000 (max. 500000)
  91 words of extra memory for PDF output out of 10000 (max. 10000000)
 

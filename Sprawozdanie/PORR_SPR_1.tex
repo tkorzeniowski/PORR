@@ -138,7 +138,7 @@ $$
 Jeśli przyjmiemy, że posiadamy sześć przedmiotów, które możemy spakować, a także znamy $C = [c_{i}]_{1\times N}$, $M = [m_{i}]_{1\times N}$ oraz wektor $x = (0, 1, 0, 0, 1, 1)$ to wiemy, że do plecaka został załadowany przedmiot drugi, piąty oraz szósty. 
 
 \subsection{Algorytm świetlika}
-Algorytm świetlika (FA - ang. $firefly algorithm$) jest heurystyką inspirowaną zachowaniem społecznym świetlików (robaczków świętojańskich). Jego głównym zastosowaniem są zadania optymalizacji ciągłej z ograniczeniami. Może jednak być wykorzystywany także w problemach optymalizacji kombinatorycznej.
+Algorytm świetlika (FA - ang. \textit{firefly algorithm}) jest heurystyką inspirowaną zachowaniem społecznym świetlików (robaczków świętojańskich). Jego głównym zastosowaniem są zadania optymalizacji ciągłej z ograniczeniami. Może jednak być wykorzystywany także w problemach optymalizacji kombinatorycznej.
 
 Fenomen świetlików polega na ich bioluminescencyjnej komunikacji. Każdy z nich cechuje się pewną atrakcyjnością, proporcjonalną do jasności z jaką świecą. Świetlik o większej jasności przyciąga inne osobniki (przyjmujemy obupłciowość świetlików) o mniejszej jasności. Zakładamy też, że świetliki nie umierają.
 
@@ -197,7 +197,7 @@ $f(x_{j})$ oznacza wartość funkcji celu dla świetlika $x_{j}$. Warunkiem stop
 
 \clearpage
 \subsection{Algorytm roju świetlików}
-Algorytm roju świetlików (GSO - ang. $glowworm swarm optimization$), w przeciwieństwie do FA, oparty jest na zachowaniach społecznych nieskrzydlatych świetlików. Przejawia się to zdolnością do zmiany intensywności emisji lucyferny, czyli wydawaniem blasków o różnym natężeniu. Od algorytmu świetlika, GSO różni się także ze względu na możliwość podziału świetlików na podgrupy. Pozwala to osiągać wiele lub nawet wszystkie optima lokalne.
+Algorytm roju świetlików (GSO - ang. \textit{glowworm swarm optimization}), w przeciwieństwie do FA, oparty jest na zachowaniach społecznych nieskrzydlatych świetlików. Przejawia się to zdolnością do zmiany intensywności emisji lucyferny, czyli wydawaniem blasków o różnym natężeniu. Od algorytmu świetlika, GSO różni się także ze względu na możliwość podziału świetlików na podgrupy. Pozwala to osiągać wiele lub nawet wszystkie optima lokalne.
 
 Różna jest także reprezentacja sąsiedztwa świetlików. Zmienna sąsiedztwa $r_{d}$ jest związana z zakresem radialnym $r_{s}$, tak aby $0 < r_{d} \leq r_{s}$. Wynika z tego, że świetlik $i$ bierze pod uwagę świetlika $j$ jako sąsiada, jeśli $j$ jest wewnątrz obszaru sąsiedztwa rozwiązania $i$ oraz poziom lucyferny jest wyższy dla $j$-tego niż $i$-tego.
 
