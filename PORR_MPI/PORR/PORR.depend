@@ -1,0 +1,70 @@
+# depslib dependency file v1.0
+1514825290 source:/home/tk/PORR/PORR/main.cpp
+	<mpi.h>
+	<iostream>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string>
+	<fstream>
+	"Firefly.h"
+	"GSO.h"
+
+1514670436 /home/tk/openmpi/include/mpi.h
+	<stddef.h>
+	"mpi_portable_platform.h"
+	"openmpi/ompi/mpi/cxx/mpicxx.h"
+
+1514670436 /home/tk/openmpi/include/mpi_portable_platform.h
+	"omp.h"
+	"omp.h"
+
+1514769503 source:/home/tk/PORR/PORR/Firefly.cpp
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<cmath>
+	<time.h>
+	<string.h>
+	<memory.h>
+	<random>
+	<omp.h>
+	"Firefly.h"
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<cmath>
+	<time.h>
+	<string.h>
+	<memory.h>
+	<random>
+	<omp.h>
+	"Firefly.h"
+
+1514769552 /home/tk/PORR/PORR/Firefly.h
+	<iostream>
+
+1514824974 source:/home/tk/PORR/PORR/GSO.cpp
+	<iostream>
+	<fstream>
+	<algorithm>
+	<math.h>
+	<string.h>
+	<time.h>
+	<cmath>
+	<random>
+	"GSO.h"
+	<iostream>
+	<fstream>
+	<algorithm>
+	<math.h>
+	<string.h>
+	<time.h>
+	<random>
+	<omp.h>
+	"GSO.h"
+
+1514824958 /home/tk/PORR/PORR/GSO.h
+	<iostream>
+
