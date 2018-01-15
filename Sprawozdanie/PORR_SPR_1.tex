@@ -246,10 +246,8 @@ gdzie $\beta$ to pewna stała, a $n_{t}$ jest parametrem używanym do sterowania
 \end{algorithmic}
 \end{algorithm}
 
-\section{Wybrane technologie}
-Implementacja algorytmów została wykonana w języku C++ 11. Do implementacji i testów wykorzystano zintegrowane środowisko programistyczne Code Blocks .
-
-Do realizacji wersji równoległej algorytmów z pamięcią wspólną wykorzystano środowisko OpenMP.
+\section{Wersja równoległa - pamięć wspólna}
+Implementacja algorytmów została wykonana w języku C++ 11. Do implementacji i testów wykorzystano zintegrowane środowisko programistyczne Code Blocks. Do realizacji wersji równoległej algorytmów z pamięcią wspólną wykorzystano środowisko OpenMP.
 
 \subsection{Sprzęt}
 \bgroup
@@ -266,25 +264,30 @@ Do realizacji wersji równoległej algorytmów z pamięcią wspólną wykorzysta
 \end{tabular}
 \egroup
 
-\section{Wyniki}
+\subsection{Wyniki}
 Dla każdego z algorytmów wykonano 10 symulacji rozwiązania problemów o różnych złożonościach (liczbie możliwych elementów do spakowania). Symulacje te zostały wykonane w wersji sekwencyjnej oraz równoległej dla czterech i ośmiu wątków. Większej liczby wątków nie ma sensu rozważać, ponieważ używany sprzęt nie wystarczy do większego zrównoleglenia obliczeń.
-\subsection{Przyśpieszenie obliczeń}
-Obliczenia były prowadzone przy założeniach, że rozpatrujemy populację dwustu świetlików, a maksymalna liczba iteracji jaką może wykonać algorytm to tysiąc. Zestawienie czasów wykonania programu i osiągniętego przyśpieszenia w zależności od zrównoleglenia prezentują tabele \ref{wspólnaFA} i \ref{wspólnaGSO}.
+
+Ze względu na zależność kolejnych kroków wykonania algorytmu (wyznaczanie atrakcyjności świetlików, ich poruszanie, zmiana liderów/sąsiadów) od rozwiązań wyznaczonych w następujących po sobie iteracjach nie można zrównoleglić pętli głównych. Zostały zrównoleglone wszystkie pętle wewnętrzne wykonywane w powyższych krokach.
+
+%W ramach testów wydajnościowych (badania przyśpieszenia) każdy z algorytmów wykonał stałą liczbę iteracji. Do testów zbieżności każdy z algorytmów. 
+
+\subsubsection{Przyśpieszenie obliczeń}
+Obliczenia były prowadzone przy założeniach, że rozpatrujemy populację dwustu świetlików, a maksymalna liczba iteracji jaką może wykonać algorytm jest stała i równa tysiąc. Zestawienie średnich czasów wykonania programu i osiągniętego przyśpieszenia w zależności od zrównoleglenia prezentują tabele \ref{wspólnaFA} i \ref{wspólnaGSO}.
 
 \bgroup
 \def\arraystretch{1.1}
 \begin{table}[ht]
-\caption{Czas i przyśpieszenie wykonania algorytmu świetlika (FA)}
+\caption{Średni czas wykonania algorytmu świetlika (FA) w sekundach.}
 \label{wspólnaFA}
 \centering
-\begin{tabular}{|c||c||c|c||c|c|}
+\begin{tabular}{|c||c|c||c|c||c|c|}
 \hline
- \multirow{2}{*}{złożoność} & \multirow{2}{*}{sekwencyjnie} & \multicolumn{2}{c||}{4 wątki} & \multicolumn{2}{c|}{8 wątków} \\\cline{3-6}
- & & czas & przyśpieszenie & czas & przyśpieszenie \\\hline
- 24  & 0,0753906 & 0,17625 & 0,42775 &  0,0847009 & 0,89008\\\hline
- 120  & 0,215828 & 0,46174 & 0,46742 & 0,302861 & 0,71263 \\\hline
- 600  & 1,27815 & 1,23022 & 1,03896 & 0,747475 & 1,70996 \\\hline
- 960  & 1,51908 & 1,1197 & 1,35668 & 0,698841 & 2,17371 \\\hline
+ \multirow{2}{*}{złożoność} & \multicolumn{2}{c||}{sekwencyjnie} & \multicolumn{2}{c||}{4 wątki} & \multicolumn{2}{c|}{8 wątków} \\\cline{2-7}
+ & czas & wariancja & czas & wariancja & czas & wariancja \\\hline
+ 24 & 0.024 & 2,06e-05 & 0,079 & 7,8e-04 & 0,072& 4,37e-04\\\hline
+ 120 & 0,248 & 0,003 & 0,213 & 0,028 & 0,201 & 0,013 \\\hline
+ 600 & 1,02 & 0,136 & 0,893 & 0,221 & 0,764 & 0,097 \\\hline
+ 960 & 2,766 & 0,684 & 1,309 & 0,349 & 1,146 & 0,214 \\\hline
 \end{tabular}
 \end{table}
 \egroup
@@ -292,23 +295,63 @@ Obliczenia były prowadzone przy założeniach, że rozpatrujemy populację dwus
 \bgroup
 \def\arraystretch{1.1}
 \begin{table}[ht]
-\caption{Czas i przyśpieszenie wykonania algorytmu roju świetlików (GSO)}
+\caption{Średni czas wykonania algorytmu roju świetlików (GSO) w sekundach.}
 \label{wspólnaGSO}
 \centering
-\begin{tabular}{|c||c||c|c||c|c|}
+\begin{tabular}{|c||c|c||c|c||c|c|}
 \hline
- \multirow{2}{*}{złożoność} & \multirow{2}{*}{sekwencyjnie} & \multicolumn{2}{c||}{4 wątki} & \multicolumn{2}{c|}{8 wątków} \\\cline{3-6}
- & & czas & przyśpieszenie & czas & przyśpieszenie \\\hline
- 24  & 0,0963501 & 0,3246547 & 0,29678 &  0,3521662 & 0,27359\\\hline
- 120  & 0,245403 & 0,237385 & 0,91779 & 0,214741 & 1,14279 \\\hline
- 600  & 0,813467 & 0,612114 & 1,32895 & 0,661251 & 1,23019 \\\hline
- 960  & 1,30946 & 0,892147 & 1,46776 & 0,711577 & 1,84022 \\\hline
+ \multirow{2}{*}{złożoność} & \multicolumn{2}{c||}{sekwencyjnie} & \multicolumn{2}{c||}{4 wątki} & \multicolumn{2}{c|}{8 wątków} \\\cline{2-7}
+ & czas & wariancja & czas & wariancja & czas & wariancja \\\hline
+ 24 & 0,013 & 6,36e-06 & 0,035 & 4,51e-05 & 0,037 & 5,05e-05\\\hline
+ 120 & 0,141 & 9.3e-04 & 0,13 & 7.8e-04 & 0,122 & 6,9e-04 \\\hline
+ 600 & 0,545 & 0,039 & 0,433 & 0,025 & 0,0389 & 0,02 \\\hline
+ 960 & 1,547 & 0,207 & 0,895 & 0,072 & 0,7 & 0,043 \\\hline
 \end{tabular}
 \end{table}
 \egroup
 \vspace*{1\baselineskip}
 
-\subsection{Zbieżność algorytmów}
+Na podstawie tabeli \ref{MPprzysp} można zauważyć, że dla problemów o małej złożoności nastąpiło spowolnienie działania algorytmów zrównoleglonych w stosunku do wersji sekwencyjnej. Liczba operacji związanych z zarządzaniem nowymi wątkami za przerasta złożoność problemu. Dopiero dla większych przypadków można zaobserwować przyśpieszenie.
+
+%\bgroup
+%\def\arraystretch{1.1}
+%\begin{table}[ht]
+%\caption{Przyśpieszenie wykonania algorytmów FA i GSO}
+%\label{MPprzysp1}
+%\centering
+%\begin{tabular}{|c||c|c||c|c|}
+%\hline
+% \multirow{2}{*}{złożoność} & \multicolumn{2}{c||}{4 wątki} & \multicolumn{2}{c|}{8 wątków} \\\cline{2-5}
+% & FA & GSO & FA & GSO \\\hline
+% 24 & 0,303 & 0,375 & 0,332 & 0,355\\\hline
+% 120 & 1,106 & 1,093 & 1,239 & 1,16 \\\hline
+% 600 & 1,142 & 1,259 & 1,336 & 1,403 \\\hline
+% 960 & 2,113 & 1,729 & 2,414 & 2,225 \\\hline
+%\end{tabular}
+%\end{table}
+%\egroup
+%\vspace*{1\baselineskip}
+
+\bgroup
+\def\arraystretch{1.1}
+\begin{table}[ht]
+\caption{Przyśpieszenie wykonania algorytmów FA i GSO}
+\label{MPprzysp}
+\centering
+\begin{tabular}{|c||c|c||c|c|}
+\hline
+ \multirow{2}{*}{złożoność} & \multicolumn{2}{c||}{FA} & \multicolumn{2}{c|}{GSO} \\\cline{2-5}
+ & 4 wątki & 8 wątków & 4 wątki & 8 wątków \\\hline
+ 24 & 0,303 & 0,332 & 0,375 & 0,355\\\hline
+ 120 & 1,106 & 1,239 & 1,093 & 1,16 \\\hline
+ 600 & 1,142 & 1,336 & 1,259 & 1,403 \\\hline
+ 960 & 2,113 & 2,414 & 1,729 & 2,225 \\\hline
+\end{tabular}
+\end{table}
+\egroup
+\vspace*{1\baselineskip}
+
+\subsubsection{Zbieżność algorytmów}
 \begin{figure}[ht]
 %\vspace{-20pt}
 \centering
@@ -326,11 +369,86 @@ Obliczenia były prowadzone przy założeniach, że rozpatrujemy populację dwus
 \end{figure}
 %\clearpage
 
-W każdym z testów znane było najlepsze rozwiązanie  problemu plecakowego na podstawie którego wyznaczony był $\epsilon$. Jest to parametr wykorzystywany do wyznaczania zbieżności oznaczający procentową wartość o jaką może różnić się rozwiązanie znalezione przez algorytm w stosunku do rozwiązania optymalnego. Na potrzeby testów został on ustalony $\epsilon = 0.04$. Przez zbieżność algorytmu rozumiemy dostatecznie bliskie rozwiązanie w stosunku do rozwiązania optymalnego, które nie zmienia się przez określoną liczbę iteracji.
+W każdym z testów zbieżności algorytmu znane było najlepsze rozwiązanie problemu plecakowego, na podstawie którego wyznaczony był $\epsilon$. Jest to parametr wykorzystywany do wyznaczania zbieżności oznaczający procentową wartość o jaką może różnić się rozwiązanie znalezione przez algorytm w stosunku do rozwiązania optymalnego. Na potrzeby testów został on ustalony $\epsilon = 0.04$. Przez zbieżność algorytmu rozumiemy dostatecznie bliskie rozwiązanie w stosunku do rozwiązania optymalnego, które nie zmienia się przez określoną liczbę iteracji.
 
 Na podstawie wykresów \ref{zbieznoscFA24} i \ref{zbieznoscFA600} można zauważyć, że liczba iteracji potrzebnych do rozwiązania problemu na założonym poziomie dokładności rośnie wraz z rozmiarem problemu. Ponadto dla problemów o dużych rozmiarach (600 elementów) charakterystyczny jest większy początkowy wzrost wartości funkcji celu w stosunku do dalszych iteracji.
 
 Algorytm roju świetlików (GSO) nie nadaje się naszym zdaniem do problemów dyskretnych. Początkowo wylosowane najlepsze rozwiązanie pozostaje nim aż do końca działania algorytmu. Świetliki poruszają się wokół lokalnych maksimów, lecz liderzy (najlepsze lokalne rozwiązania) mają zbyt małe możliwości poruszania się.
+
+\section{Wersja równoległa - pamięć lokalna}
+Do realizacji wersji równoległej algorytmów z pamięcią lokalną wykorzystano środowisko OpenMPI. Ze względu na problemy z zestawieniem połączenia między komputerami osobistymi, obliczenia zostały wykonane w laboratorium wydziałowym - lab011.
+
+W ramach testów został przyjęty model komunikacji między komputerami, w którym istnieje jeden węzeł główny oraz wiele węzłów wykonujących zadania. Węzeł główny odpowiedzialny jest za wczytanie danych o rozwiązywanym problemie, przesłaniu ich do węzłów wykonujących, a na koniec odebranie od nich wyników wykonanego algorytmu. Węzły obliczeniowe wykonują ten sam algorytm - FA lub GSO (w zależności od parametru podanego przez węzeł główny).
+
+Algorytmy wykonywane w węzłach obliczeniowych wykonują się w wersji sekwencyjnej (brak zrównolegleń w ramach algorytmu). Zrównoleglenie polega na wielokrotnym wykonaniu tego samego algorytmu na wielu procesorach w tym samym czasie. Czas wykonania powinien być niewiele większy niż pojedyncze wykonanie wersji sekwencyjnej algorytmu. Do porównania wydajności, liczba świetlików oraz liczba iteracji algorytmu została przyjęta taka sama jak w wersji równoległej z pamięcią wspólną. Kryterium zbieżności nie było badane, ponieważ wyniki nie będą się różnić od już znanych.
+
+\subsection{Wyniki}
+Dla każdego z algorytmów wykonano 10 symulacji rozwiązywania problemów o różnych złożonościach. Średnie czasy wykonania algorytmów zostały przedstawione w tabelach \ref{MPIwspólnaFA} i \ref{MPIwspólnaGSO}.
+
+Algorytm roju świetlików okazuje się wydajniejszy od algorytmu świetlika niemal dwukrotnie. 
+
+Uzyskane przyśpieszenie zestawione w tabeli \ref{MPIprzysp} pokazuje, że korzystając z 4 węzłów obliczeniowych można otrzymać niemal 3.5 krotne przyśpieszenie wykonania algorytmów. W przypadku 8 węzłów przyśpieszenie jest około 6.5 krotne.
+
+\bgroup
+\def\arraystretch{1.1}
+\begin{table}[ht]
+\caption{Średni czas wykonania algorytmu świetlika (FA) w sekundach.}
+\label{MPIwspólnaFA}
+\centering
+\begin{tabular}{|c||c|c||c|c||c|c|}
+\hline
+ \multirow{2}{*}{złożoność} & \multicolumn{2}{c||}{sekwencyjnie} & \multicolumn{2}{c||}{4 wątki} & \multicolumn{2}{c|}{8 wątków} \\\cline{2-7}
+ & czas & wariancja & czas & wariancja & czas & wariancja \\\hline
+ 24 & 6,176 & 0,013 & 6,72 & 0,013 & 7,211 & 0,005\\\hline
+ 120 & 54,813 & 2,117 & 60,525 & 1,487 & 65,327 & 0,83 \\\hline
+ 600 & 359,226 & 120,37 & 387,454 & 16,39 & 423,545 & 23,65 \\\hline
+ 960 & 564,433 & 57,710 & 622,599 & 241,787 & & \\\hline
+\end{tabular}
+\end{table}
+\egroup
+
+
+
+\bgroup
+\def\arraystretch{1.1}
+\begin{table}[ht]
+\caption{Średni czas wykonania algorytmu roju świetlików (GSO) w sekundach.}
+\label{MPIwspólnaGSO}
+\centering
+\begin{tabular}{|c||c|c||c|c||c|c|}
+\hline
+ \multirow{2}{*}{złożoność} & \multicolumn{2}{c||}{sekwencyjnie} & \multicolumn{2}{c||}{4 wątki} & \multicolumn{2}{c|}{8 wątków} \\\cline{2-7}
+ & czas & wariancja & czas & wariancja & czas & wariancja \\\hline
+ 24 & 6,847 & 0,519 & 8,309 & 0,027 & 9,091 & 0,036 \\\hline
+ 120 & 36,86 & 4,257 & 42,641 & 1,11 & 45,489 & 1,444 \\\hline
+ 600 & 183,17 & 198,822 & 200,584 & 26,962 & 220,316 & 12,953 \\\hline
+ 960 & 288,58 & 162,875 & 318,646 & 238,303 &  & \\\hline
+\end{tabular}
+\end{table}
+\egroup
+\vspace*{1\baselineskip}
+
+
+
+\bgroup
+\def\arraystretch{1.1}
+\begin{table}[ht]
+\caption{Przyśpieszenie wykonania algorytmów FA i GSO}
+\label{MPIprzysp}
+\centering
+\begin{tabular}{|c||c|c||c|c|}
+\hline
+ \multirow{2}{*}{złożoność} & \multicolumn{2}{c||}{FA} & \multicolumn{2}{c|}{GSO} \\\cline{2-5}
+ & 4 wątki & 8 wątków & 4 wątki & 8 wątków \\\hline
+ 24 & 3,676 & 6,852 & 3,296 & 6,025\\\hline
+ 120 & 3,623 & 6,712 & 3,458 & 6,482 \\\hline
+ 600 & 3,709 & 6,785 & 3,653 & 6,651 \\\hline
+ 960 & 3,626 &  & 3,623 &  \\\hline
+\end{tabular}
+\end{table}
+\egroup
+\vspace*{1\baselineskip}
+
 
 
 %\newpage

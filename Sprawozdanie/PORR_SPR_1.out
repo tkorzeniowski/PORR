@@ -3,8 +3,10 @@
 \BOOKMARK [2][-]{subsection.2.1}{Problem plecakowy}{section.2}% 3
 \BOOKMARK [2][-]{subsection.2.2}{Algorytm swietlika}{section.2}% 4
 \BOOKMARK [2][-]{subsection.2.3}{Algorytm roju swietlik\363w}{section.2}% 5
-\BOOKMARK [1][-]{section.3}{Wybrane technologie}{}% 6
+\BOOKMARK [1][-]{section.3}{Wersja r\363wnoleg\233a - pamiec wsp\363lna}{}% 6
 \BOOKMARK [2][-]{subsection.3.1}{Sprzet}{section.3}% 7
-\BOOKMARK [1][-]{section.4}{Wyniki}{}% 8
-\BOOKMARK [2][-]{subsection.4.1}{Przyspieszenie obliczen}{section.4}% 9
-\BOOKMARK [2][-]{subsection.4.2}{Zbieznosc algorytm\363w}{section.4}% 10
+\BOOKMARK [2][-]{subsection.3.2}{Wyniki}{section.3}% 8
+\BOOKMARK [3][-]{subsubsection.3.2.1}{Przyspieszenie obliczen}{subsection.3.2}% 9
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Zbieznosc algorytm\363w}{subsection.3.2}% 10
+\BOOKMARK [1][-]{section.4}{Wersja r\363wnoleg\233a - pamiec lokalna}{}% 11
+\BOOKMARK [2][-]{subsection.4.1}{Wyniki}{section.4}% 12
