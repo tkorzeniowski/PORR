@@ -378,11 +378,13 @@ Algorytm roju świetlików (GSO) nie nadaje się naszym zdaniem do problemów dy
 \section{Wersja równoległa - pamięć lokalna}
 Do realizacji wersji równoległej algorytmów z pamięcią lokalną wykorzystano środowisko OpenMPI. Ze względu na problemy z zestawieniem połączenia między komputerami osobistymi, obliczenia zostały wykonane w laboratorium wydziałowym - lab011.
 
-W ramach testów został przyjęty model komunikacji między komputerami, w którym istnieje jeden węzeł główny oraz wiele węzłów wykonujących zadania. Węzeł główny odpowiedzialny jest za wczytanie danych o rozwiązywanym problemie, przesłaniu ich do węzłów wykonujących, a na koniec odebranie od nich wyników wykonanego algorytmu. Węzły obliczeniowe wykonują ten sam algorytm - FA lub GSO (w zależności od parametru podanego przez węzeł główny).
+W ramach testów został przyjęty model komunikacji między komputerami, w którym istnieje jeden węzeł główny oraz wiele węzłów wykonujących zadania. Węzeł główny odpowiedzialny jest za wczytanie danych o rozwiązywanym problemie, przesłaniu ich do węzłów wykonujących, a na koniec odebranie od nich wyników wykonanego algorytmu. Taki sposób zrównoleglenia ma na celu wyznaczenie najlepszego z rozwiązań, zatem węzeł główny wybiera wynik o największej wartości funkcji celu ze wszystkich znalezionych. Węzły obliczeniowe wykonują ten sam algorytm - FA lub GSO (w zależności od parametru podanego przez węzeł główny).
 
 Algorytmy wykonywane w węzłach obliczeniowych wykonują się w wersji sekwencyjnej (brak zrównolegleń w ramach algorytmu). Zrównoleglenie polega na wielokrotnym wykonaniu tego samego algorytmu na wielu procesorach w tym samym czasie. Do wyznaczenia przyśpieszenia porównany będzie czas wykonania w wersji rozproszonej na $k$ procesorach oraz czas wykonania na jednym procesorze $k$-krotnie.
 
-Czas wykonania powinien być niewiele większy niż pojedyncze wykonanie wersji sekwencyjnej algorytmu. Do porównania wydajności, liczba świetlików oraz liczba iteracji algorytmu została przyjęta taka sama jak w wersji równoległej z pamięcią wspólną. Kryterium zbieżności nie było badane, ponieważ wyniki nie będą się różnić od już znanych.
+Czas wykonania powinien być niewiele większy niż pojedyncze wykonanie wersji sekwencyjnej algorytmu. Do porównania wydajności, liczba świetlików oraz liczba iteracji algorytmu została przyjęta taka sama jak w wersji równoległej z pamięcią wspólną. 
+
+Kryterium zbieżności nie było szczegółowo badane. Ze względu na losowane rozwiązania początkowego (populacji świetlików), każde wywołanie może wskazywać rozwiązanie dalekie od optymalnego. Wielokrotne wykonanie algorytmu i wybranie najlepszego z rozwiązań pozwala zniwelować ten efekt.
 
 \subsection{Wyniki}
 Dla każdego z algorytmów wykonano 10 symulacji rozwiązywania problemów o różnych złożonościach. Średnie czasy wykonania algorytmów zostały przedstawione w tabelach \ref{MPIwspólnaFA} i \ref{MPIwspólnaGSO}.
