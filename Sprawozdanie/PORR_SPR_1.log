@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.11.6)  15 JAN 2018 02:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.11.6)  16 JAN 2018 03:19
 entering extended mode
 **./PORR_SPR_1.tex
 (PORR_SPR_1.tex
@@ -1005,14 +1005,14 @@ been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.315 
-       [4] <zbieznoscFA24.png, id=100, 861.9703pt x 491.58656pt>
+       [4] <zbieznoscFA24.png, id=104, 861.9703pt x 491.58656pt>
 File: zbieznoscFA24.png Graphic file (type png)
 
 <use zbieznoscFA24.png>
 Package pdftex.def Info: zbieznoscFA24.png used on input line 358.
 (pdftex.def)             Requested size: 446.71458pt x 239.00427pt.
 
-<zbieznoscFA600.png, id=101, 872.50969pt x 507.39563pt>
+<zbieznoscFA600.png, id=105, 872.50969pt x 507.39563pt>
 File: zbieznoscFA600.png Graphic file (type png)
 
 <use zbieznoscFA600.png>
@@ -1027,37 +1027,42 @@ l.377
 ith the same identifier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.448 \end{table}
-                  [6 <./zbieznoscFA600.png (PNG copy)>]
-LaTeX Font Info:    Try loading font information for OT4+cmtt on input line 465
+l.430 
+       [6 <./zbieznoscFA600.png (PNG copy)>]
+LaTeX Font Info:    Try loading font information for OT4+cmtt on input line 468
 .
 
 (D:\Programy\LaTeX\MiKTeX\tex\latex\polski\ot4cmtt.fd
 File: ot4cmtt.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
-)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 474.
+)pdfTeX warning (ext4): destination with the same identifier (name{page.}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.471 \bibitem{knapsack3}
+                          [7]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 477.
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.474 \end{document}
-                     [7]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 474.
+l.477 \end{document}
+                     [8]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 477.
  (PORR_SPR_1.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 474.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 474.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 477.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 477.
 Package rerunfilecheck Info: File `PORR_SPR_1.out' has not changed.
-(rerunfilecheck)             Checksum: 6F816F3B9C9BCAA7574F1BED1ACC2355;803.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 474.
+(rerunfilecheck)             Checksum: DB70B6772E7C0A3A41F283237639EA7E;847.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 477.
  ) 
 Here is how much of TeX's memory you used:
- 11487 strings out of 493323
- 166522 string characters out of 3140394
- 289023 words of memory out of 3000000
- 14780 multiletter control sequences out of 15000+200000
+ 11489 strings out of 493323
+ 166542 string characters out of 3140394
+ 287023 words of memory out of 3000000
+ 14781 multiletter control sequences out of 15000+200000
  12698 words of font info for 39 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,11n,43p,986b,427s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,11n,43p,986b,445s stack positions out of 5000i,500n,10000p,200000b,50000s
 {D:/Programy/LaTeX/MiKTeX/fonts/enc/dvips/pl/pltt.enc}{D:/Programy/LaTeX/MiKT
 eX/fonts/enc/dvips/pl/plrm.enc}{D:/Programy/LaTeX/MiKTeX/fonts/enc/dvips/pl/plm
 i.enc}{D:/Programy/LaTeX/MiKTeX/fonts/enc/dvips/pl/plit.enc}{D:/Programy/LaTeX/
@@ -1074,9 +1079,9 @@ ublic/pl/plr8.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/plsy10.pfb><D
 :/Programy/LaTeX/MiKTeX/fonts/type1/public/pl/plsy8.pfb><D:/Programy/LaTeX/MiKT
 eX/fonts/type1/public/pl/plti10.pfb><D:/Programy/LaTeX/MiKTeX/fonts/type1/publi
 c/pl/pltt10.pfb>
-Output written on PORR_SPR_1.pdf (7 pages, 188730 bytes).
+Output written on PORR_SPR_1.pdf (8 pages, 190663 bytes).
 PDF statistics:
- 199 PDF objects out of 1000 (max. 8388607)
- 38 named destinations out of 1000 (max. 500000)
- 107 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 206 PDF objects out of 1000 (max. 8388607)
+ 39 named destinations out of 1000 (max. 500000)
+ 115 words of extra memory for PDF output out of 10000 (max. 10000000)
 

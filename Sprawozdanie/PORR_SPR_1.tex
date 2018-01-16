@@ -311,7 +311,7 @@ Obliczenia były prowadzone przy założeniach, że rozpatrujemy populację dwus
 \egroup
 \vspace*{1\baselineskip}
 
-Na podstawie tabeli \ref{MPprzysp} można zauważyć, że dla problemów o małej złożoności nastąpiło spowolnienie działania algorytmów zrównoleglonych w stosunku do wersji sekwencyjnej. Liczba operacji związanych z zarządzaniem nowymi wątkami za przerasta złożoność problemu. Dopiero dla większych przypadków można zaobserwować przyśpieszenie.
+Na podstawie tabeli \ref{MPprzysp} można zauważyć, że dla problemów o małej złożoności nastąpiło spowolnienie działania algorytmów zrównoleglonych w stosunku do wersji sekwencyjnej. Liczba operacji związanych z zarządzaniem nowymi wątkami przerasta złożoność problemu. Dopiero dla większych przypadków można zaobserwować przyśpieszenie.
 
 %\bgroup
 %\def\arraystretch{1.1}
@@ -380,14 +380,14 @@ Do realizacji wersji równoległej algorytmów z pamięcią lokalną wykorzystan
 
 W ramach testów został przyjęty model komunikacji między komputerami, w którym istnieje jeden węzeł główny oraz wiele węzłów wykonujących zadania. Węzeł główny odpowiedzialny jest za wczytanie danych o rozwiązywanym problemie, przesłaniu ich do węzłów wykonujących, a na koniec odebranie od nich wyników wykonanego algorytmu. Węzły obliczeniowe wykonują ten sam algorytm - FA lub GSO (w zależności od parametru podanego przez węzeł główny).
 
-Algorytmy wykonywane w węzłach obliczeniowych wykonują się w wersji sekwencyjnej (brak zrównolegleń w ramach algorytmu). Zrównoleglenie polega na wielokrotnym wykonaniu tego samego algorytmu na wielu procesorach w tym samym czasie. Czas wykonania powinien być niewiele większy niż pojedyncze wykonanie wersji sekwencyjnej algorytmu. Do porównania wydajności, liczba świetlików oraz liczba iteracji algorytmu została przyjęta taka sama jak w wersji równoległej z pamięcią wspólną. Kryterium zbieżności nie było badane, ponieważ wyniki nie będą się różnić od już znanych.
+Algorytmy wykonywane w węzłach obliczeniowych wykonują się w wersji sekwencyjnej (brak zrównolegleń w ramach algorytmu). Zrównoleglenie polega na wielokrotnym wykonaniu tego samego algorytmu na wielu procesorach w tym samym czasie. Do wyznaczenia przyśpieszenia porównany będzie czas wykonania w wersji rozproszonej na $k$ procesorach oraz czas wykonania na jednym procesorze $k$-krotnie.
+
+Czas wykonania powinien być niewiele większy niż pojedyncze wykonanie wersji sekwencyjnej algorytmu. Do porównania wydajności, liczba świetlików oraz liczba iteracji algorytmu została przyjęta taka sama jak w wersji równoległej z pamięcią wspólną. Kryterium zbieżności nie było badane, ponieważ wyniki nie będą się różnić od już znanych.
 
 \subsection{Wyniki}
 Dla każdego z algorytmów wykonano 10 symulacji rozwiązywania problemów o różnych złożonościach. Średnie czasy wykonania algorytmów zostały przedstawione w tabelach \ref{MPIwspólnaFA} i \ref{MPIwspólnaGSO}.
 
 Algorytm roju świetlików okazuje się wydajniejszy od algorytmu świetlika niemal dwukrotnie. 
-
-Uzyskane przyśpieszenie zestawione w tabeli \ref{MPIprzysp} pokazuje, że korzystając z 4 węzłów obliczeniowych można otrzymać niemal 3.5 krotne przyśpieszenie wykonania algorytmów. W przypadku 8 węzłów przyśpieszenie jest około 6.5 krotne.
 
 \bgroup
 \def\arraystretch{1.1}
@@ -402,12 +402,10 @@ Uzyskane przyśpieszenie zestawione w tabeli \ref{MPIprzysp} pokazuje, że korzy
  24 & 6,176 & 0,013 & 6,72 & 0,013 & 7,211 & 0,005\\\hline
  120 & 54,813 & 2,117 & 60,525 & 1,487 & 65,327 & 0,83 \\\hline
  600 & 359,226 & 120,37 & 387,454 & 16,39 & 423,545 & 23,65 \\\hline
- 960 & 564,433 & 57,710 & 622,599 & 241,787 & & \\\hline
+ 960 & 566,036 & 43,172 & 621,353 & 116,949 & 677,225 & 32,494\\\hline
 \end{tabular}
 \end{table}
 \egroup
-
-
 
 \bgroup
 \def\arraystretch{1.1}
@@ -422,13 +420,13 @@ Uzyskane przyśpieszenie zestawione w tabeli \ref{MPIprzysp} pokazuje, że korzy
  24 & 6,847 & 0,519 & 8,309 & 0,027 & 9,091 & 0,036 \\\hline
  120 & 36,86 & 4,257 & 42,641 & 1,11 & 45,489 & 1,444 \\\hline
  600 & 183,17 & 198,822 & 200,584 & 26,962 & 220,316 & 12,953 \\\hline
- 960 & 288,58 & 162,875 & 318,646 & 238,303 &  & \\\hline
+ 960 & 288,149 & 118,902 & 321,373 & 115,337 & 351,474 & 80,838\\\hline
 \end{tabular}
 \end{table}
 \egroup
-\vspace*{1\baselineskip}
+%\vspace*{1\baselineskip}
 
-
+Uzyskane przyśpieszenie zestawione w tabeli \ref{MPIprzysp} pokazuje, że korzystając z 4 węzłów obliczeniowych można otrzymać niemal 3.5 krotne przyśpieszenie wykonania algorytmów. W przypadku 8 węzłów przyśpieszenie jest około 6.5 krotne. Przyśpieszenie uzyskane przez oba algorytmy jest podobne, z lekką przewagą algorytmu FA.
 
 \bgroup
 \def\arraystretch{1.1}
@@ -443,13 +441,18 @@ Uzyskane przyśpieszenie zestawione w tabeli \ref{MPIprzysp} pokazuje, że korzy
  24 & 3,676 & 6,852 & 3,296 & 6,025\\\hline
  120 & 3,623 & 6,712 & 3,458 & 6,482 \\\hline
  600 & 3,709 & 6,785 & 3,653 & 6,651 \\\hline
- 960 & 3,626 &  & 3,623 &  \\\hline
+ 960 & 3,644 & 6,668 & 3,586 & 6,559 \\\hline
 \end{tabular}
 \end{table}
 \egroup
 \vspace*{1\baselineskip}
 
+\section{Wnioski}
+Testy rozwiązań zostały przeprowadzone w dwóch różnych środowiskach oraz innym sprzęcie obliczeniowym. Mimo to, można wskazać lepsze z  rozwiązań - wersję równoległą z pamięcią lokalną. Wynika to z większego przyśpieszenia obliczeń pomimo wolniejszego sprzętu. 
 
+Sposób zrównoleglenia także istotnie wpływa na wydajność badanych algorytmów. W przypadku OpenMP zrównoleglenie jest bardzo drobne i stosowane do pętli wewnętrznych kolejnych funkcji algorytmów. Dla OpenMPI zrównoleglamy wykonanie całego algorytmu, dzięki czemu w tym samym czasie otrzymujemy wiele rozwiązań. 
+
+Wyniki jakościowe algorytmów są dość zbliżone do siebie, natomiast wydajniejszy jest algorytm GSO.
 
 %\newpage
 
